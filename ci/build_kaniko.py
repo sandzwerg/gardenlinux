@@ -38,8 +38,7 @@ def _prepare_for_kaniko_purgefs() -> _Kaniko_save_fs_state:
     certifi_bak = os.path.join('/', 'kaniko', 'cacert.pem')
     certifi_certs_path = certifi.where()
     if not os.path.exists(certifi_bak):
-        os.link(certifi_certs_path, certifi_bak)
-
+        os.link(certifi_certs_path, certifi_bak, follow_symlinks=True)
     ca_certs_bak = os.path.join('/', 'kaniko', 'ca-certificates.crt')
     ca_certs_path = os.path.join('/', 'etc', 'ssl', 'certs', 'ca-certificates.crt')
     if not os.path.exists(ca_certs_bak):
