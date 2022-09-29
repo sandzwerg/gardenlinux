@@ -86,6 +86,8 @@ def _prepare_for_kaniko_purgefs() -> _Kaniko_save_fs_state:
 
     shutil.rmtree(path=os.path.join('/', 'usr', 'lib'), ignore_errors=True)
     shutil.rmtree(path=os.path.join('/', 'cc', 'utils'), ignore_errors=True)
+    os.makedirs(os.path.dirname(certifi_certs_path), exist_ok=True)
+    os.link(certifi_bak, certifi_certs_path, follow_symlinks=True)
 
     return _Kaniko_save_fs_state(
         certifi_certs_path=certifi_certs_path,
