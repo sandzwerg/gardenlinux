@@ -162,6 +162,7 @@ def promote_step(
     is_complete = len(releases) == len(flavours)
     if not is_complete:
         logger.error('release was not complete - will not publish (this indicates a bug!)')
+        logger.info(f'found {len(releases)} releases for {len(flavours)} flavours')
         sys.exit(1)  # do not signal an error
 
     logger.debug(build_target_set)
