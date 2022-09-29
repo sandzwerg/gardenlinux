@@ -30,6 +30,11 @@ def promote_single_step(
         logger.info(f'build target {glci.model.BuildTarget.PUBLISH=} not specified - exiting now')
         sys.exit(0)
 
+    if cicd_cfg.publish.override:
+        committish = cicd_cfg.publish.override.commit or committish
+        version = cicd_cfg.publish.override.version or version
+        gardenlinux_epoch = cicd_cfg.publish.override.epoch or gardenlinux_epoch
+
     find_release = glci.util.preconfigured(
         func=glci.util.find_release,
         cicd_cfg=cicd_cfg,
@@ -133,6 +138,11 @@ def promote_step(
     if glci.model.BuildTarget.MANIFEST not in build_target_set:
         logger.info(f'build target {glci.model.BuildTarget.MANIFEST=} not specified - exiting now')
         sys.exit(0)
+
+    if cicd_cfg.publish.override:
+        committish = cicd_cfg.publish.override.commit or committish
+        version = cicd_cfg.publish.override.version or version
+        gardenlinux_epoch = cicd_cfg.publish.override.epoch or gardenlinux_epoch
 
     find_releases = glci.util.preconfigured(
       func=glci.util.find_releases,

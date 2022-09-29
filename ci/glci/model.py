@@ -646,12 +646,20 @@ class OpenstackPublishCfg:
 
 
 @dataclasses.dataclass(frozen=True)
+class PublishOverrideCfg:
+    commit: typing.Optional[str]
+    version: typing.Optional[str]
+    epoch: typing.Optional[str]
+
+
+@dataclasses.dataclass(frozen=True)
 class OciPublishCfg:
     image_prefix: str
 
 
 @dataclasses.dataclass(frozen=True)
 class PublishCfg:
+    override: typing.Optional[PublishOverrideCfg]
     azure: AzurePublishCfg
     openstack: OpenstackPublishCfg
     oci: OciPublishCfg

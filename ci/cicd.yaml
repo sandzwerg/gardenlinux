@@ -13,6 +13,10 @@ cicd_cfgs:
       alicloud_region: 'eu-central-1'
       alicloud_cfg_name: 'gardenlinux'
     publish:
+      override:
+        commit: 8a01c0c693faa3ad9fdace0aca97515aba3ac380
+        version: '912.0'
+        epoch: '912'
       azure:
         offer_id: 'gardenlinux'
         publisher_id: 'sap'
