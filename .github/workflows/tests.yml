@@ -86,6 +86,9 @@ jobs:
         role-session-name: ${{ secrets.aws_session }}
         aws-region: ${{ secrets.aws_region }}
 
+    - name: patch MSAL
+      run: echo "LS0tIGEvYXBwbGljYXRpb24ucHkJMjAyMi0xMC0xOSAxNDoxOToxMi42NjUzMTMyNDUgKzAwMDAKKysrIGIvYXBwbGljYXRpb24ucHkJMjAyMi0xMC0xOSAxNDoxOTo0OS4yNjEyNTA3NDEgKzAwMDAKQEAgLTE3NCw2ICsxNzQsNyBAQAogICAgICAgICAgICAgICAgICMgd2hlbiB3ZSB3b3VsZCBldmVudHVhbGx5IHdhbnQgdG8gYWRkIHRoaXMgZmVhdHVyZSB0byBQQ0EgaW4gZnV0dXJlLgogICAgICAgICAgICAgZXhjbHVkZV9zY29wZXM9Tm9uZSwKICAgICAgICAgICAgIGh0dHBfY2FjaGU9Tm9uZSwKKyAgICAgICAgICAgIGFsbG93X2Jyb2tlcj1Ob25lLAogICAgICAgICAgICAgKToKICAgICAgICAgIiIiQ3JlYXRlIGFuIGluc3RhbmNlIG9mIGFwcGxpY2F0aW9uLgogCg==" | base64 -d | sudo patch /usr/lib/python3/dist-packages/msal/application.py
+
     - if: ${{ matrix.target }} == 'azure'
       id: 'auth_azure'
       name: 'Authenticate to Azure'
