@@ -38,7 +38,7 @@ jobs:
           name: build-${{ matrix.architecture }}-${{ matrix.target }}${{ matrix.modifier }}
       - name: upload to S3 bucket ${{ secrets.bucket }}
         run: .github/workflows/upload_to_s3.sh ${{ secrets.bucket }} ${{ matrix.target }}${{ matrix.modifier }}-${{ matrix.architecture }}-*.tar.gz
-  upload_test_logs_to_s3:
+  upload_platform_tests_logs_to_s3:
     name: upload test logs to S3
     runs-on: ec2-gardenlinux-amd64
     permissions:
@@ -63,6 +63,8 @@ jobs:
           aws-region: ${{ secrets.region }}
       - uses: actions/download-artifact@v2
         with:
-          name: test-log-${{ matrix.architecture }}-${{ matrix.target }}${{ matrix.modifier }}
+          name: tests-${{ matrix.architecture }}-${{ matrix.target }}${{ matrix.modifier }}
       - name: upload to S3 bucket ${{ secrets.bucket }}
-        run: aws s3 cp "${{ matrix.target }}${{ matrix.modifier }}-${{ matrix.architecture }}-"*.integration-tests-log "s3://${{ secrets.bucket }}/integration-tests-logs/"
+        run: |
+          name="platform-tests-${{ matrix.target }}${{ matrix.modifier }}-${{ matrix.architecture }}-$(bin/garden-version)-$(git rev-parse --short HEAD)"
+          aws s3 cp --recursive "$name" "s3://$bucket/platform-tests-logs/"
