@@ -9,7 +9,7 @@ if [ "$hash" != "$check" ]; then
 	echo "$hash" > make_targets.cache
 	bin/expand-flavours < flavours.yaml | while read features; do
 		bin/garden-feat cname --featureDir features --features "$features"
-	done | sort >> make_targets.cache
+	done | sort | uniq >> make_targets.cache
 fi
 
 tail -n +2 make_targets.cache

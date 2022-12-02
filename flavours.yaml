@@ -1,28 +1,36 @@
-targets:
-  - name: kvm
+flavour_sets:
+  gardener:
+    targets:
+      - name: gcp
+      - name: aws
+      - name: azure
+      - name: ali
+      - name: openstack
     modifiers:
-      - _secureboot
-      - _secureboot,_readonly
-      - _secureboot,_readonly,_persistence
-  - name: metal
+      - _dev
+      - gardener,_prod
+  other:
+    targets:
+      - name: kvm
+        modifiers:
+          - _secureboot
+          - _secureboot,_readonly
+          - _secureboot,_readonly,_persistence
+      - name: metal
+        modifiers:
+          - _secureboot
+          - _secureboot,_readonly
+          - _secureboot,_readonly,_persistence
+          - _pxe
+          - vhost
+      - name: aws
+        modifiers:
+          - _secureboot
+          - _secureboot,_readonly
+          - _secureboot,_readonly,_persistence
+          - githubActionRunner
+      - name: vmware
+      - name: firecracker
     modifiers:
-      - _secureboot
-      - _secureboot,_readonly
-      - _secureboot,_readonly,_persistence
-      - _pxe
-      - vhost
-  - name: gcp
-  - name: aws
-    modifiers:
-      - _secureboot
-      - _secureboot,_readonly
-      - _secureboot,_readonly,_persistence
-      - githubActionRunner
-  - name: azure
-  - name: ali
-  - name: openstack
-  - name: vmware
-  - name: firecracker
-modifiers:
-  - _dev
-  - gardener,_prod
+      - _dev
+      - gardener,_prod

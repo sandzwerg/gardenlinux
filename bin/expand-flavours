@@ -13,10 +13,11 @@ def expand_target(target):
 
 flavours = yaml.safe_load(sys.stdin.read())
 
-targets = flatten([ expand_target(target) for target in flavours['targets'] ])
+for set in flavours['flavour_sets'].values():
+	targets = flatten([ expand_target(target) for target in set['targets'] ])
 
-modifiers = flavours.get('modifiers', [])
+	modifiers = set.get('modifiers', [])
 
-modified_targets = targets + [ target + "," + modifier for target in targets for modifier in modifiers ]
-for target in modified_targets:
-	print(target)
+	modified_targets = targets + [ target + "," + modifier for target in targets for modifier in modifiers ]
+	for target in modified_targets:
+		print(target)
