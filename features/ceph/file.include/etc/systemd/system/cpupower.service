@@ -1,0 +1,10 @@
+etc/systemd/system/cpupower.service
+[Unit]
+Description=CPU powersave
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cpupower frequency-set -g performance
+
+[Install]
+WantedBy=multi-user.target

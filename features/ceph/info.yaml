@@ -1,0 +1,5 @@
+description: 'host for ceph container based workload'
+type: platform
+features:
+  include:
+    - metal

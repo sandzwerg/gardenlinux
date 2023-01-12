@@ -1,0 +1,1 @@
+GRUB_CMDLINE_LINUX_DEFAULT="mitigations=off powersave=off processor.max_cstate=0 intel_idle.max_cstate=0 apparmor=0"

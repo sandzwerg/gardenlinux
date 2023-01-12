@@ -1,0 +1,6 @@
+#chrony
+curl
+podman
+python3
+systemd
+smartmontools

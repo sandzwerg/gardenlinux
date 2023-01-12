@@ -9,6 +9,7 @@ targets:
   - name: azure
   - name: container
   - name: firecracker
+  - name: ceph
   - name: gcp
   - name: kvm
     modifiers:

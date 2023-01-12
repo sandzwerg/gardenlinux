@@ -1,0 +1,45 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "*"
+boto3 = "*"
+paramiko = "*"
+click = "*"
+pyyaml = "*"
+scp = "*"
+dacite = "*"
+# Google/GCP SDK packages
+google-auth = "*"
+google-cloud-compute = "*"
+google-cloud-storage = "*"
+# Aliyun SDK packages
+oss2 = "*"
+aliyun-python-sdk-core = "*"
+aliyun-python-sdk-ecs = "*"
+# OpenStack client packages
+python-openstackclient = "*"
+# Azure SDK/CLI packages
+azure-cli = "*"
+azure-core = "*"
+azure-identity = "*"
+azure-mgmt-subscription = "*"
+azure-mgmt-resource = "*"
+azure-mgmt-compute = "*"
+azure-mgmt-storage = "*"
+azure-mgmt-network = "*"
+azure-storage-blob = "*"
+
+[dev-packages]
+pytest = "*"
+flake8 = "*"
+# black = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.10"
+
+[pipenv]
+allow_prereleases = true
