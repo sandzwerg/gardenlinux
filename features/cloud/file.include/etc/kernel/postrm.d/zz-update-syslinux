@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euoE pipefail
+set -xeuoE pipefail
 
 which syslinux &> /dev/null || exit 0
 

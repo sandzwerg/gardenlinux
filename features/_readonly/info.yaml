@@ -1,2 +1,9 @@
-description: "enable dmverity"
+description: "/usr directory will be readonly"
 type: flag
+features:
+  include: [ server ]
+fs:
+  - dest: /usr
+    type: ext4
+    options: ro
+

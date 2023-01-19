@@ -1,5 +1,8 @@
+gdisk
 curl
 dosfstools
 btrfs-progs
 xfsprogs
-dracut-network
+main/d/dracut/dracut-core_055-1gardenlinux1_${arch}.deb
+main/d/dracut/dracut_055-1gardenlinux1_all.deb 
+main/d/dracut/dracut-network_055-1gardenlinux1_all.deb

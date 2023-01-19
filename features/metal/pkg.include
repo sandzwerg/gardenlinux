@@ -3,17 +3,17 @@ fdisk
 lvm2
 dosfstools
 efibootmgr
-efitools
 haveged
 ipmitool
+cloud-guest-utils
 pciutils
 usbutils
 numactl
 mdadm
 hdparm
 smartmontools
-frr
-[${arch}=amd64] syslinux
-[${arch}=amd64] syslinux-common
-linux-image-5.15-${arch}
-tpm2-tools
+bird2
+syslinux
+syslinux-common
+https://repo.gardenlinux.io/gardenlinux/pool/main/l/linux-signed-5.10-${arch}/linux-image-5.10.141-garden-${arch}_5.10.141-0gardenlinux1_${arch}.deb
+https://repo.gardenlinux.io/gardenlinux/pool/main/l/linux-signed-5.10-${arch}/linux-image-5.10-${arch}_5.10.141-0gardenlinux1_${arch}.deb

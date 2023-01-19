@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -u 
+
+echo "testing kernel configuration"
+
+rootfsDir=$1
+rootfsDir=$(readlink -e "$rootfsDir")
+
+function check_config_line() {
+    file=$1
+    option=$2
+    value=$3
+
+    config_line=$(grep -ve "^#" "$file" | grep -w "$option")
+    if [ "$value" == "unset" -a -z "$config_line" ]; then
+      echo "OK - $option is not present in $file"
+      return
+    fi
+
+    IFS="=" read -r key val <<< "$config_line"
+    ucval=$(tr "[:lower:]" "[:upper:]" <<< "$val")
+
+    case $value in
+      unset)
+        if [ -n "$config_line" -a "$ucval" != "N" ]; then
+            echo "FAIL - $option must not be enabled in $file"
+            exit 1
+        fi
+      ;;
+      set)
+        if [ -z "$config_line" -o "$ucval" == "N" ]; then
+            echo "FAIL - $option must be enabled in $file"
+            exit 1
+        fi
+      ;;
+      *)
+        if [ -z "$config_line" -o "$val" == "$value" ]; then
+            echo "FAIL - $option must be have value $value in $file"
+            exit 1
+        fi
+      ;;
+    esac
+
+    echo "OK - $option has value $val in $file"
+}
+
+
+kernel_configfiles=$(ls -1 "${rootfsDir}"/boot/config-*)
+
+for config in $kernel_configfiles; do
+    check_config_line "$config" "CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY" "unset"
+    check_config_line "$config" "CONFIG_DEBUG_INFO" "set"
+    check_config_line "$config" "CONFIG_DEBUG_INFO_BTF" "set"
+done
+
+exit 0

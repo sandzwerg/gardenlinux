@@ -8,4 +8,3 @@
 /var/cache/apt/srcpkgcache.bin
 /var/cache/apt/archives/*.deb 
 /var/cache/apt/archives/partial/*.deb
-/var/log/apt/eipp.log.xz

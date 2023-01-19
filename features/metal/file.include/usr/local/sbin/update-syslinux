@@ -3,43 +3,45 @@
 set -uoeE pipefail
 
 bootDir="/boot/efi"
-kernelDir="${bootDir}/Default"
+kernelDir="$bootDir/legacy"
 configDir="/etc/kernel/cmdline.d"
-configFile="${bootDir}/syslinux/syslinux.cfg"
+configFile="/boot/efi/syslinux/syslinux.cfg"
 
-check_version() {
+prepare_files() {
 	local v=$1
 	if [ ! -d "$kernelDir/$v" ]; then 
-		return 1
+		mkdir -p "$kernelDir/$v"
 	fi
 	if [ ! -f "$kernelDir/$v/linux" ]; then
-		return 1
+		cp "/boot/vmlinuz-$v" "$kernelDir/$v/linux" && \
+			chown root:root "$kernelDir/$v/linux" && \
+			chmod 0644 "$kernelDir/$v/linux"
 	fi
-	if [ ! -f "$kernelDir/$v/initrd.img-$v" ]; then
-		return 1
-	fi
+	cp -u "/boot/initrd.img-$v" "$kernelDir/$v/initrd.img-$v" && \
+		chown root:root "$kernelDir/$v/initrd.img-$v" && \
+		chmod 0600 "$kernelDir/$v/initrd.img-$v"
 	return 0
 }
+# preliminary checks
+#if ! mountpoint -q ${bootDir}; then
+#	echo "${bootDir} is not a mountpoint" 1>&2
+#	exit 1
+#fi
 
 if ! which syslinux &> /dev/null; then
 	exit 0
 fi
 
-#TODO: detect if anything other than bootDir/Default is used
-if [ ! -d "$kernelDir" ]; then
-        exit 0
-fi 
-
-# load extras
+# load extra stuff
 for i in "${configDir}"/*-*.cfg; do
 	[ -e "$i" ] || continue
-	source "$i"
+	source $i
 done
 
 versions=()
 # kernel / initrd
 for kernel in /boot/vmlinuz-*; do 
-	if check_version "${kernel#*-}"; then
+	if prepare_files "${kernel#*-}"; then
 		versions+=("${kernel#*-}")
 	fi
 done
@@ -60,11 +62,11 @@ readarray -t vSorted < <(printf '%s\n' "${versions[@]}" | sort -rV)
 	echo
 	for v in "${vSorted[@]}"; do
 		echo "LABEL Linux $v"
-		echo " LINUX ../Default/$v/linux"
+		echo " LINUX ../legacy/$v/linux"
 		echo " APPEND root=${DEVICE} ${CMDLINE_LINUX}"
-		echo " INITRD ../Default/${v}/initrd.img-$v"
+		echo " INITRD ../legacy/${v}/initrd.img-${v}"
 		echo
 	done
-} > "${configFile}.new" 
+} > "${bootDir}/syslinux/syslinux.cfg.new" 
 
-mv "${configFile}.new" "${configFile}"
+mv "${bootDir}/syslinux/syslinux.cfg.new" "${bootDir}/syslinux/syslinux.cfg"
