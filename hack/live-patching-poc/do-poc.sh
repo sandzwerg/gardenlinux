@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -Eeuxo pipefail
+
+
 THIS_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[@]}")")"
 REPO_ROOT="$THIS_DIR/../../"
 
