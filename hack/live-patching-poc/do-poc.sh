@@ -7,10 +7,9 @@ THIS_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[@]}")")"
 REPO_ROOT="$THIS_DIR/../../"
 
 IMAGE="metal_dev-amd64-today-local.raw"
-
 VM_SSH_PORT="2223"
+TARGET_IMAGE="metal_dev"
 
-export GARDENLINUX_BUILD_CRE=docker
 
 function ask {
     read -p "$1 [yY]" -n 1 -r
@@ -34,7 +33,7 @@ fi
 
 if ask '(Re-)Build Garden Linux Image? yY'; then
     pushd "$REPO_ROOT" || exit
-    make metal-dev
+    make ${TARGET_IMAGE}
     popd || exit
 
 fi
