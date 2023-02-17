@@ -5,7 +5,6 @@ set -Eeuo pipefail
 echo "start" 
 thisDir="$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-
 echo "### Install kpatch"
 $thisDir/kpatch/install.sh
 
