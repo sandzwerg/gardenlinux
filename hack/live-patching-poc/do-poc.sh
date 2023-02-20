@@ -10,7 +10,6 @@ IMAGE="metal_dev-amd64-today-local.raw"
 VM_SSH_PORT="2223"
 TARGET_IMAGE="metal_dev"
 
-
 VM_SSH_PORT="2223"
 function ask {
     read -p "$1 [yY]" -n 1 -r
@@ -23,6 +22,13 @@ function ask {
     fi
     
 }
+
+# Make build container for kpatch-build
+make --directory="../../container" build-kernelmodule
+
+# Create kpatch demo file in kpatch-build container
+docker run -ti --rm gardenlinux/build-kernelmodule:today "/bin/bash -c /bin/uname -a"
+
 
 if [ -f $THIS_DIR/qemu.pid ]; then
     if ask 'found qemu.pid. kill -9 this pid? yY'; then
