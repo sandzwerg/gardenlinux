@@ -8,6 +8,7 @@
 
 export gls_gl_dist=$(echo "today" |fzf --header 'Enter the Garden Linux Version you are interested in, or select today' --print-query | tail -1)
 
+
 # If user did not provide minor version but only a major, assume user wants: $major.0
 if [ "$gls_gl_dist" != "today" ]; then
   if ! [[ "$gls_gl_dist" =~ "." ]]; then
@@ -18,6 +19,7 @@ if [ "$gls_gl_dist" != "today" ]; then
 fi  
 
 repo_url="http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/Release"
+export repo_date=$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/InRelease | grep Date:)
 
 # Check if repo exists for user provided garden linux version string
 if curl -s $repo_url| grep -q "Error"; then
@@ -37,4 +39,4 @@ function filter_package_info() {
 
 # fzf preview requires function to be available in spawned subshell
 export -f filter_package_info
-echo -e "$packages_file" | grep "^Package:.*" | fzf --multi --preview 'bash -c "filter_package_info {2}"' --header 'Select Garden Linux Package to see details on the right window. You can type to filter.'
+echo -e "$packages_file" | grep "^Package:.*" | fzf --multi --preview 'bash -c "filter_package_info {2}"' --header '${repo_date} | Select Garden Linux Package to see details on the right window. You can type to filter.'
