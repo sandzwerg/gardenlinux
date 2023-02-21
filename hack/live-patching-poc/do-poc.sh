@@ -55,11 +55,15 @@ then
     sudo "$REPO_ROOT"/bin/inject-sshkey -i "$REPO_ROOT/.build/$IMAGE" -u dev -k "$THIS_DIR/poc-keys-rsa.pub"
 fi
 
+if ask 'Remove localhost:2223 from your known host keys? yY'; then
+    ssh-keygen -f "~/.ssh/known_hosts" -R "[localhost]:2223" || true
+fi
+
 echo "Start VM as daemon"
 "$REPO_ROOT/bin/start-vm" --daemonize --pidfile "qemu.pid" "$REPO_ROOT/.build/$IMAGE"
 
-echo "Wait 60sec for VM to boot"
-sleep 60
+echo "Wait 180sec for VM to boot"
+sleep 180
 echo "Wait for SSH"
 ssh -o 'ConnectionAttempts=10' -o "StrictHostKeyChecking=no" -i "$THIS_DIR/poc-keys-rsa" -p "$VM_SSH_PORT" dev@localhost echo "connected" || (echo "Failed to connect to VM - abort poc" && exit 1)
  
