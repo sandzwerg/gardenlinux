@@ -2,3 +2,7 @@ vim
 make
 git
 gcc
+libc6-dev
+libelf-dev
+kpatch
+kpatch-build
