@@ -12,8 +12,6 @@ TARGET_IMAGE="metal_dev"
 
 
 VM_SSH_PORT="2223"
-
-
 function ask {
     read -p "$1 [yY]" -n 1 -r
     echo
