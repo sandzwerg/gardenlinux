@@ -1,8 +1,8 @@
 #!/bin/bash
 
 LATEST_INSTALLED_KERNEL_HEADER=$(ls /lib/modules | grep gardenlinux | cut -d '-' -f1 | sort -r | head -n 1)
+KERNEL_BASE=${KERNEL_BASE:-$LATEST_INSTALLED_KERNEL_HEADER}
 KERNEL_ARCH=${ARKERNEL_ARCHCH:-"amd64"}
-KERNEL_BASE=${KERNEL_BASE:-"5.15"}
 GL_APT_DIST=${GL_APT_DIST:-"today"}
 SCRIPT=$(realpath "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")

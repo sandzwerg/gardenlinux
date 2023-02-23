@@ -10,6 +10,8 @@ IMAGE="metal_dev-amd64-today-local.raw"
 VM_SSH_PORT="2223"
 TARGET_IMAGE="metal_dev"
 
+GARDENLINUX_BUILD_CRE=${GARDENLINUX_BUILD_CRE:-podman}
+
 VM_SSH_PORT="2223"
 function ask {
     read -p "$1 [yY]" -n 1 -r
@@ -27,7 +29,9 @@ function ask {
 make --directory="../../container" build-kernelmodule
 
 # Create kpatch demo file in kpatch-build container
-docker run -ti --rm gardenlinux/build-kernelmodule:today "/bin/bash -c /bin/uname -a"
+sudo ${GARDENLINUX_BUILD_CRE} run -ti --rm \
+    -v ./poc-files/:/data \
+    gardenlinux/build-kernelmodule:today bash -c "/data/build-patch.sh"
 
 
 if [ -f $THIS_DIR/qemu.pid ]; then

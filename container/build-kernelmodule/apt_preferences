@@ -1,0 +1,4 @@
+Package: openssl:* libssl3:* libcrypto3-udeb:* libssl3-udeb:* libssl-dev:* libssl-doc:*
+Pin: release a=
+Pin-Priority: 900
+

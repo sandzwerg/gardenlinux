@@ -6,7 +6,7 @@ ALTNAME=
 ALTNAME_INTERNAL=$(shell [ -n "$(ALTNAME)" ] && printf "%s %s" "-t" "$(ALTNAME)" )
 
 PATH_KERNEL_PACKAGES="../.packages/main/l/linux"
-KERNEL_VERSION=5.10
+KERNEL_BASE=6.1
 
 GARDENLINUX_BUILD_CRE ?= sudo podman
 
@@ -58,9 +58,9 @@ build-integration-test: build-base-test
 .PHONY: build-kernelmodule
 build-kernelmodule: build-image
 	@$(GARDENLINUX_BUILD_CRE) build --build-arg VERSION=$(VERSION) \
-		--build-arg KERNEL_BASE="5.15" \
-		--build-arg JOB_HOST_ARCH="amd64" \
-		--build-arg JOB_HOST_GNU_TYPE_PACKAGE="x86-64-linux-gnu" \
+		--build-arg KERNEL_BASE="$(KERNEL_BASE)" \
+		--build-arg TARGET_ARCH="amd64" \
+		--build-arg TARGET_ARCH_GNU_TYPE_PACKAGE="x86-64-linux-gnu" \
 		-t gardenlinux/build-kernelmodule:$(VERSION) build-kernelmodule
 
 .PHONY: clean
