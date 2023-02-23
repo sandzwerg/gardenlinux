@@ -1,1 +1,9 @@
 vim
+make
+git
+gcc
+libc6-dev
+libelf-dev
+kpatch
+kpatch-build
+linux-source-6.1

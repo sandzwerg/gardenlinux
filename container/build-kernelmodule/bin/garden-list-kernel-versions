@@ -1,0 +1,11 @@
+#!/bin/bash
+
+KERNEL_ARCH=${KERNEL_ARCH:-"amd64"}
+LATEST_INSTALLED_KERNEL_HEADER=$(ls /lib/modules | grep gardenlinux | cut -d '-' -f1 | sort -r | head -n 1)
+KERNEL_BASE=${KERNEL_BASE:-$LATEST_INSTALLED_KERNEL_HEADER}
+GL_APT_DIST=${GL_APT_DIST:-"today"}
+
+wget -O - -o /dev/null "http://repo.gardenlinux.io/gardenlinux/dists/${GL_APT_DIST}/main/binary-${KERNEL_ARCH}/Packages" | \
+	grep "Package: linux-image-${KERNEL_BASE}.*.garden.*" | \
+	cut -d ' ' -f2
+
