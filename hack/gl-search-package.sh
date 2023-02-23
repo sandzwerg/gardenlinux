@@ -18,8 +18,8 @@ if [ "$gls_gl_dist" != "today" ]; then
   fi
 fi  
 
-repo_url="http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/Release"
-export repo_date=$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/InRelease | grep Date:)
+repo_url="http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/Release?ignoreCaching=1"
+export repo_date=$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/InRelease?ignoreCaching=1 | grep Date:)
 
 # Check if repo exists for user provided garden linux version string
 if curl -s $repo_url| grep -q "Error"; then
@@ -29,11 +29,11 @@ if curl -s $repo_url| grep -q "Error"; then
 fi
 
 export gls_selected_arch=$(echo -e "amd64\narm64" | fzf --header 'Select Garden Linux package architecture' )
-packages_file="$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/main/binary-${gls_selected_arch}/Packages)"
+packages_file="$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/main/binary-${gls_selected_arch}/Packages?ignoreCaching=1)"
 
 function filter_package_info() {
   foo=$1;
-  packages_file="$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/main/binary-${gls_selected_arch}/Packages)"
+  packages_file="$(curl -s http://repo.gardenlinux.io/gardenlinux/dists/${gls_gl_dist}/main/binary-${gls_selected_arch}/Packages?ignoreCaching=1)"
   echo "$packages_file" | sed -n "/Package: $foo$/,/^$/p"
 }
 
