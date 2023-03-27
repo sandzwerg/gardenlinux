@@ -26,6 +26,7 @@ RUN apt-get update && \
     apt-get install -qy --no-install-recommends \
     linux-headers-6.1-${ARCH} \
     linux-image-6.1-${ARCH}-dbg \
+    linux-source-6.1 \
     linux-kbuild-6.1
     
 # Install general kernel module build dependencies
@@ -56,3 +57,9 @@ RUN apt-get update && \
     sudo \
     vim \
     wget    
+
+RUN mv /bin/uname /bin/uname-orig
+COPY ./bin/uname /bin/uname
+
+
+

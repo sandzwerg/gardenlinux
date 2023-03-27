@@ -4,6 +4,7 @@ VERSION_NUMBER_MINOR=$(shell ../bin/garden-version --minor)
 VERSION_NUMBER=$(VERSION_NUMBER_MAJOR).$(VERSION_NUMBER_MINOR)
 ALTNAME=
 ALTNAME_INTERNAL=$(shell [ -n "$(ALTNAME)" ] && printf "%s %s" "-t" "$(ALTNAME)" )
+ARCH ?= "amd64"
 
 PATH_KERNEL_PACKAGES="../.packages/main/l/linux"
 KERNEL_VERSION=5.10
@@ -62,14 +63,9 @@ build-kernelmodule:
 	cp -p ../gardenlinux.asc build-kernelmodule/gardenlinux.asc
 	@$(GARDENLINUX_BUILD_CRE) build \
 			--build-arg VERSION=$(VERSION) \
-			--build-arg ARCH="arm64" \
-			--build-arg GNU_TYPE_PACKAGE="aarch64-linux-gnu"\
-			-t gardenlinux/build-kernelmodule-arm64:$(VERSION) build-kernelmodule
-	@$(GARDENLINUX_BUILD_CRE) build \
-			--build-arg VERSION=$(VERSION) \
 			--build-arg ARCH="amd64" \
 			--build-arg GNU_TYPE_PACKAGE="x86-64-linux-gnu" \
-			-t gardenlinux/build-kernelmodule-amd64:$(VERSION) build-kernelmodule
+			-t gardenlinux/build-kernelmodule-$(ARCH):$(VERSION) build-kernelmodule
 	rm build-kernelmodule/gardenlinux.asc
 
 .PHONY: clean

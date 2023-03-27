@@ -9,6 +9,7 @@ REPO_ROOT="$THIS_DIR/../../"
 IMAGE="metal_dev-amd64-today-local.raw"
 VM_SSH_PORT="2223"
 TARGET_IMAGE="metal_dev"
+GARDENLINUX_CONTAINER_IMAGE=${GARDENLINUX_CONTAINER_IMAGE:-gardenlinux/build-kernelmodule-amd64:today}
 
 GARDENLINUX_BUILD_CRE=${GARDENLINUX_BUILD_CRE:-podman}
 
@@ -31,7 +32,7 @@ make --directory="../../container" build-kernelmodule
 # Create kpatch demo file in kpatch-build container
 sudo ${GARDENLINUX_BUILD_CRE} run -ti --rm \
     -v ./poc-files/:/data \
-    gardenlinux/build-kernelmodule:today bash -c "/data/build-patch.sh"
+    "${GARDENLINUX_CONTAINER_IMAGE}" bash -c "/data/build-patch.sh"
 
 
 if [ -f $THIS_DIR/qemu.pid ]; then
