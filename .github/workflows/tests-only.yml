@@ -31,6 +31,7 @@ jobs:
       gcp_zone: ${{ secrets.GCP_ZONE }}
       AZURE_CONFIG_DIR: /tmp/azure_config_dir
     runs-on: ec2-gardenlinux-amd64
+    environment: oidc_aws_s3_upload 
     permissions:
       id-token: write
       packages: write
