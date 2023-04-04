@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         architecture: [ amd64, arm64 ]
-        target: [ gcp, aws, azure ]
+        target: [ gcp ]
         modifier: [ "${{ inputs.default_modifier }}" ]
         exclude:
           - architecture: arm64
