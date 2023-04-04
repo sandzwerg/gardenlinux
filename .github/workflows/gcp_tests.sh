@@ -57,7 +57,7 @@ cat << EOF > "$configFile"
 gcp:
     project: ${gcp_project}
     region: ${gcp_region}
-    oidc_credentials_json_path: "/gardenlinux/${credentials_file_name}"
+    service_account_json_path: "/gardenlinux/${credentials_file_name}"
     zone: ${gcp_zone}
     image: file:///artifacts/$(basename "$image_file")
     ssh:
