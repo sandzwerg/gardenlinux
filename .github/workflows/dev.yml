@@ -1,5 +1,5 @@
 name: dev
-on: [ push, pull_request ]
+on: [ pull_request ]
 jobs:
   build:
     uses: ./.github/workflows/build.yml
