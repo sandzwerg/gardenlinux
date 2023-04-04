@@ -201,6 +201,13 @@ def gcp_credentials(testconfig, pipeline, request):
         return google.oauth2.service_account.Credentials.from_service_account_info(
             json.loads(service_account_json)
         )
+    elif "oidc_credentials_json_path" in testconfig:
+        oidc_cred_json_path = path.expanduser(testconfig["oidc_credentials_json_path"])
+        with open(oidc_cred_json_path, "r") as f:
+            oidc_cred_json = f.read()
+        return google.oauth2.service_account.IDTokenCredentials.from_service_account_info(
+            json.loads(oidc_cred_json)
+        )
     else:
         return None
 
