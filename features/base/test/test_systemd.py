@@ -20,4 +20,13 @@ def test_systemctl_no_failed_units_kvm(client, kvm):
         if not entry['unit'] == "rngd.service":
             error_count += 1
             error_out.append(entry['unit'])
+
+    if error_count != 0:
+        (log_error_code, log_output, log_error) = client.execute_command("journalctl --no-pager -u cloud-config.service")
+        print(log_output)
+
+    # for unit in error_out:
+    #     (log_error_code, log_output, log_error) = client.execute_command(f"journalctl --no-pager -u {unit}")
+    #     print(log_output)
+
     assert error_count == 0, f"systemd units {', '.join(error_out)} failed"
