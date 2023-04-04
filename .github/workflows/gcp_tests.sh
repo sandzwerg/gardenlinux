@@ -77,8 +77,6 @@ mkdir /gardenlinux/tmp
 TMPDIR=/gardenlinux/tmp/
 cd /gardenlinux/tests
 export GOOGLE_APPLICATION_CREDENTIALS="/gardenlinux/$credentials_file_name"
-export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="/gardenlinux/$credentials_file_name"
-export GOOGLE_GHA_CREDS_PATH="/gardenlinux/$credentials_file_name"
 pytest --iaas=gcp --configfile=/gardenlinux/$configFile --junit-xml=/platform-test-logs/test-$prefix-gcp_junit.xml || exit 1
 exit 0
 EOF
