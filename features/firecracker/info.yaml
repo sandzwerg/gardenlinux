@@ -2,6 +2,7 @@ description: firecracker
 type: platform
 features:
   include:
+    - chost
     - server
   exclude:
     - _selinux
