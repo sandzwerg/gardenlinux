@@ -2,9 +2,9 @@
 
 # Prepare Network
 TAP_DEV=${TAP_DEV:-tap0}
-TAP_IP="172.16.0.1"
+TAP_IP="10.0.2.1"
 ETH_INET_DEV=${ETH_INET_DEV:-enp1s0}
-MASK_SHORT="/30"
+MASK_SHORT="/24"
 
 # Create Tap device
 sudo ip link del "$TAP_DEV" 2> /dev/null || true
@@ -22,3 +22,5 @@ sudo iptables-save > iptables.rules.old
 sudo iptables -t nat -A POSTROUTING -o "$ETH_INET_DEV" -j MASQUERADE
 sudo iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i "$TAP_DEV" -o "$ETH_INET_DEV" -j ACCEPT
+
+
