@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Prepare Network
-TAP_DEV="tap0"
+TAP_DEV=${TAP_DEV:-tap0}
 TAP_IP="172.16.0.1"
-ETH_INET_DEV="enp1s0"
+ETH_INET_DEV=${ETH_INET_DEV:-enp1s0}
 MASK_SHORT="/30"
 
 # Create Tap device

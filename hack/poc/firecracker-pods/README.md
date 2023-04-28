@@ -22,25 +22,17 @@ The `_dev` feature is used for easy access to the microvm during the poc.
 make firecracker_dev
 ```
 
-## 2. Setup firecracker
+## 2. Setup Network
 
-``` 
-# Start firecracker and use a temp socket
-
-API_SOCKET="./firecracker.socket"
-rm -f "$API_SOCKET"
-firecracker --api-sock "${API_SOCKET}"
-
-# Setup Network
-# TODO: what do we actually do here?
-# - create a tap device
-# - configure the tap device to have access to internet
-#    - iptable rules 
-#    - ip forwarding
-# https://github.com/firecracker-microvm/firecracker/blob/main/docs/getting-started.md#running-firecracker
-
-
-... continue here ...
 
 ```
+# Edit variables in prepare-network.sh 
+./prepare-net.sh
+```
 
+## 3. Start firecracker
+```
+
+./start-firecracker.sh
+  
+```
