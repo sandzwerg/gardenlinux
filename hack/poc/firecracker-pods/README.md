@@ -42,11 +42,16 @@ make start
 ```
 
 
+# Todos
+
+- fix issues below
+- expose containerd socket
+
 
 
 # Issues
 
-## containerd OOM after startup
+## containerd OOM after startup (fixed)
 ```
  containerd invoked oom-killer: gfp_mask=0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=0, oom_score_adj=-999
 ```
