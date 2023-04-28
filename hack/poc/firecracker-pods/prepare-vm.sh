@@ -17,6 +17,7 @@ if [ ${ARCH} = "aarch64" ]; then
     KERNEL_BOOT_ARGS="keep_bootcon ${KERNEL_BOOT_ARGS}"
 fi
 
+sudo setfacl -m u:${USER}:rw /dev/kvm
 
 # Set boot source
 curl -X PUT --unix-socket "${API_SOCKET}" \
@@ -36,6 +37,13 @@ curl -X PUT --unix-socket "${API_SOCKET}" \
     }" \
     "http://localhost/drives/rootfs"
 
+# Set machine-configuration 
+curl -X PUT --unix-socket "${API_SOCKET}" \
+    --data "{
+        \"mem_size_mib\": 1024,
+        \"vcpu_count\": 2
+    }" \
+    "http://localhost/machine-config"
 
 # Set network interface
 curl -X PUT --unix-socket "${API_SOCKET}" \

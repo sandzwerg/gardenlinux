@@ -51,6 +51,11 @@ make start
  containerd invoked oom-killer: gfp_mask=0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=0, oom_score_adj=-999
 ```
 
+Solution:
+- use less memory :) ... or increase allocated memory for VM via localhost/machine-config api 
+    - see https://github.com/firecracker-microvm/firecracker/blob/main/docs/device-api.md
+
+
 ## Garden Linux test fails when including chost in firecracker
 adding `chost` to included features of firecracker will result in a failing test:
 
