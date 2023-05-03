@@ -15,17 +15,21 @@ start-vm:
 build:
 	./build.sh
 
+prepare-host: network dhcpd start-firecracker
+
 network:
 	TAP_DEVICE=$(TAP_DEVICE) ETH_INET_DEV=$(ETH_INET_DEV) ./prepare-net.sh
 
 dhcpd:
-	sudo dhcpd -f -d tap0 -cf dhcp.config
+	sudo dhcpd -pf ./dhcpd.pid tap0 -cf dhcp.config
 
 start-firecracker:
+	pkill firecracker || true
+	rm -rf firecracker.socket
 	firecracker --api-sock $(API_SOCKET)
 
 clean:
 	pkill firecracker || true
 	rm -rf firecracker.socket
-	sudo pkill dhcpd || true
+	sudo kill -9 `cat dhcpd.pid`
 	

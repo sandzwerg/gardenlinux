@@ -1,16 +1,15 @@
 #!/bin/bash
 
-# Prepare Network
-TAP_DEV=${TAP_DEV:-tap0}
-TAP_IP="10.0.2.1"
-ETH_INET_DEV=${ETH_INET_DEV:-enp1s0}
-MASK_SHORT="/24"
+# Edit defaults or set variables via environment:
+CUSTOM_TAP_DEV=${CUSTOM_TAP_DEV:-tap0}
+CUSTOM_TAP_IP="${CUSTOM_TAP_IP:10.0.2.1/24}"
+CUSTOM_ETH_INET_DEV=${CUSTOM_ETH_INET_DEV:-enp1s0}
 
 # Create Tap device
 sudo ip link del "$TAP_DEV" 2> /dev/null || true
-sudo ip tuntap add dev "$TAP_DEV" mode tap
-sudo ip addr add "${TAP_IP}${MASK_SHORT}" dev "$TAP_DEV"
-sudo ip link set dev "$TAP_DEV" up
+sudo ip tuntap add dev "$CUSTOM_TAP_DEV" mode tap
+sudo ip addr add "${CUSTOM_TAP_IP}" dev "$CUSTOM_TAP_DEV"
+sudo ip link set dev "$CUSTOM_TAP_DEV" up
 
 # Allow ip forwarding
 sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
@@ -18,9 +17,9 @@ sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 # Save previous iptable rules
 sudo iptables-save > iptables.rules.old
 
-# Setup internet access for $TAP_DEV device through $ETH_INET_DEV device
-sudo iptables -t nat -A POSTROUTING -o "$ETH_INET_DEV" -j MASQUERADE
+# Setup internet access for $CUSTOM_TAP_DEV device through $CUSTOM_ETH_INET_DEV device
+sudo iptables -t nat -A POSTROUTING -o "$CUSTOM_ETH_INET_DEV" -j MASQUERADE
 sudo iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i "$TAP_DEV" -o "$ETH_INET_DEV" -j ACCEPT
+sudo iptables -A FORWARD -i "$CUSTOM_TAP_DEV" -o "$CUSTOM_ETH_INET_DEV" -j ACCEPT
 
 

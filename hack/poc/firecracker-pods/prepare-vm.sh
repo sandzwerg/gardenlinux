@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# Edit defaults or set variables via environment:
+CUSTOM_MEMORY="${CUSTOM_MEMORY:-1024}"
+CUSTOM_CPU="${CUSTOM_CPU:-2}"
+
+# More settings (rely on defaults if you have no idea what to do)
 BUILD_DIR="../../../.build"
-
-
 KERNEL="${BUILD_DIR}/firecracker_dev-amd64-today-local.vmlinux"
 ROOTFS="${BUILD_DIR}/firecracker_dev-amd64-today-local.ext4"
 FC_MAC=${FC_MAC:-06:00:AC:10:00:02}
@@ -40,8 +43,8 @@ curl -X PUT --unix-socket "${API_SOCKET}" \
 # Set machine-configuration 
 curl -X PUT --unix-socket "${API_SOCKET}" \
     --data "{
-        \"mem_size_mib\": 1024,
-        \"vcpu_count\": 2
+        \"mem_size_mib\": ${CUSTOM_MEMORY},
+        \"vcpu_count\": ${CUSTOM_CPU}
     }" \
     "http://localhost/machine-config"
 
