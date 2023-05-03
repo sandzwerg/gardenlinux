@@ -38,8 +38,10 @@ make prepare-host
 make start-vm 
 ```
 
-# Todos
-- expose containerd socket
-    - Issue 1: exposing via tcp_address setting in /etc/containerd/config.toml. does it really expose all parts of the API? 
-    - Issue 2: nerdctl and crictl seem to not support TCP endpoints
+## 4. Steps inside microVM
 
+- generate a test sshkey and add it to `/home/dev/.ssh/authorized_keys` via console spawned by `make prepare-host`
+- TODO: ... continue to do the work and document here....
+    - using /etc/containerd/config.toml settings.. do they already provide everything we need?
+        - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
+        - suitable client to use the tcp endpoint?
