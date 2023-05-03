@@ -45,3 +45,14 @@ make start-vm
     - using /etc/containerd/config.toml settings.. do they already provide everything we need?
         - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
         - suitable client to use the tcp endpoint?
+
+
+
+# Snippets
+
+
+``` 
+cd path/to/containerd/api/services/version/v1
+grpcurl -plaintext -proto version.proto 10.0.2.11:2224 containerd.services.version.v1.Version/Version
+# Should this return the version if grpc api expose correctly on host?
+```
