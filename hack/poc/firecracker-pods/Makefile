@@ -10,7 +10,7 @@ poc: clean network build
 
 start-vm:
 	sudo setfacl -m u:${USER}:rw /dev/kvm
-	sudo ./prepare-vm.sh
+	sudo ./configure-vm.sh
 
 build:
 	./build.sh
@@ -18,7 +18,7 @@ build:
 prepare-host: network dhcpd start-firecracker
 
 network:
-	TAP_DEVICE=$(TAP_DEVICE) ETH_INET_DEV=$(ETH_INET_DEV) ./prepare-net.sh
+	CUSTOM_TAP_DEVICE=$(TAP_DEVICE) CUSTOM_ETH_INET_DEV=$(ETH_INET_DEV) ./prepare-net.sh
 
 dhcpd:
 	sudo dhcpd -pf ./dhcpd.pid tap0 -cf dhcp.config

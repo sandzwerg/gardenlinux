@@ -1,2 +1,3 @@
 linux-image-6.1-firecracker-${arch}
 rng-tools5
+runc

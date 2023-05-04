@@ -1,1 +1,5 @@
 iptables.rules.old
+testkeys
+testkeys.pub
+dhcpd.pid
+*.socket

@@ -34,7 +34,7 @@ make prepare-host
 
 ```
 # Edit CUSTOM_* variables:
-#    - allocated memory and cpu in prepare-vm.sh
+#    - allocated memory and cpu in configure-vm.sh
 make start-vm 
 ```
 
@@ -46,13 +46,23 @@ make start-vm
         - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
         - suitable client to use the tcp endpoint?
 
+# TODO:
 
+- CRI-O probieren?
+- virtio vsock?
+- socat?
 
 # Snippets
-
 
 ``` 
 cd path/to/containerd/api/services/version/v1
 grpcurl -plaintext -proto version.proto 10.0.2.11:2224 containerd.services.version.v1.Version/Version
 # Should this return the version if grpc api expose correctly on host?
+```
+
+```
+# in the VM
+sudo socat -d -d -d TCP-LISTEN:2225,reuseaddr UNIX-CONNECT:/var/run/containerd/containerd.sock
+# on the Host
+socat -d -d -d UNIX-LISTEN:$(pwd)/containerd.socket TCP-CONNECT:10.0.2.11:2225,reuseaddr,fork
 ```
