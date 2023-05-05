@@ -40,16 +40,34 @@ make start-vm
 
 ## 4. Steps inside microVM
 
+### Expose containerd unix socket via socat over TCP
+
+Guest
+```
+socat TCP-LISTEN:2224,fork UNIX-CONNECT:/run/containerd/containerd.sock
+```
+
+Host:
+```
+socat UNIX-LISTEN:$(pwd)/containerd.sock,fork TCP-CONNECT:10.0.2.11:2224
+
+# in second terminal:
+nerdctl --address unix://$(pwd)/containerd.sock version
+```
+
+
+
+## TODO
+
 - generate a test sshkey and add it to `/home/dev/.ssh/authorized_keys` via console spawned by `make prepare-host`
 - TODO: ... continue to do the work and document here....
     - using /etc/containerd/config.toml settings.. do they already provide everything we need?
         - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
         - suitable client to use the tcp endpoint?
 
-# TODO:
 
-- CRI-O probieren?
-- virtio vsock?
+- CRI-O probieren? (same problem as containerd)
+- virtio vsock? (requires extra management overhead to initialize connection)
 - socat?
 
 # Snippets

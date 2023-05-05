@@ -58,6 +58,16 @@ curl -X PUT --unix-socket "${API_SOCKET}" \
     "http://localhost/network-interfaces/net1"
 
 
+curl --unix-socket ${API_SOCKET} -i \
+  -X PUT 'http://localhost/vsock' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "guest_cid": 3,
+      "uds_path": "./v.sock"
+  }'
+
+
 sleep 0.015s
 
 
