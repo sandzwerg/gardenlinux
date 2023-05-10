@@ -43,7 +43,6 @@ case "$action" in
 
 		release="$(post "releases" '{
 			"tag_name": "'"$tag"'",
-			"target_commitish": "'"$commit"'",
 			"name": "'"$name"'",
 			"body": "Placeholder.",
 			"prerelease": true
