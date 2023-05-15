@@ -12,8 +12,14 @@ start-vm:
 	sudo setfacl -m u:${USER}:rw /dev/kvm
 	sudo ./configure-vm.sh
 
-build:
-	./build.sh
+generate_ssh_key:
+	rm -rf testkeys testkeys.pub
+	ssh-keygen -t rsa -b 4096 -C "contact@gardenlinux.io" -f testkeys  -N ""
+	mkdir -p ../../../features/podpoc/file.include/home/dev/.ssh
+	cat testkeys.pub >> ../../../features/podpoc/file.include/home/dev/.ssh/authorized_keys
+
+build: generate_ssh_key
+	make -C $(PWD)/../../.. podpoc
 
 prepare-host: network dhcpd start-firecracker
 
@@ -27,6 +33,7 @@ start-firecracker:
 	pkill firecracker || true
 	rm -rf firecracker.socket
 	firecracker --api-sock $(API_SOCKET)
+
 
 clean:
 	pkill firecracker || true
