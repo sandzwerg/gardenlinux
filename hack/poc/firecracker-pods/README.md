@@ -59,16 +59,21 @@ nerdctl --address unix://$(pwd)/containerd.sock version
 
 ## TODO
 
-- generate a test sshkey and add it to `/home/dev/.ssh/authorized_keys` via console spawned by `make prepare-host`
-- TODO: ... continue to do the work and document here....
-    - using /etc/containerd/config.toml settings.. do they already provide everything we need?
-        - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
-        - suitable client to use the tcp endpoint?
+- using /etc/containerd/config.toml settings.. do they already provide everything we need?
+    - API scope enough if using tcp? https://github.com/containerd/containerd/issues/3466#issuecomment-516204803
+    - suitable client to use the tcp endpoint?
+- How should the communication between host and firecracker VM be designed?
+    - use vsock to expose vm local unix socket of grpc?
+        - how to handle the initial overhead when connecting to the vsock?
+    - use socat to bridge unix socket via tcp
+        - unix->tcp->tcp->unix
+        - nerdctl --address <unix-socket-on-host-that-got-forwarded-via-socat>
+            - this does work for `pull nginx`, but does not work for `run -p 8080:80 nginx`because of a permission error.
+                -  `FATA[0000] failed to mount {Type:overlay Source:overlay Target: Options:[index=off lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/6/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/5/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/4/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/3/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/2/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1/fs]} on "/tmp/initialC160386887": operation not permitted `
+            - doing the same in the vm (no --address flag) works
+            - running sudo nerdctl ...
+                - FATA[0000] failed to mount /tmp/containerd-mount1272006949: no such file or directory
 
-
-- CRI-O probieren? (same problem as containerd)
-- virtio vsock? (requires extra management overhead to initialize connection)
-- socat?
 
 # Snippets
 
